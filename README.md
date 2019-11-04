@@ -8,7 +8,8 @@ This project is a [superdots](https://github.com/super-dots/superdots) plugin.
 
 ## Description
 
-A superdots plugin that overrides the generic fn* functions with vim/ultisnips ones
+A superdots plugin that overrides the generic `fn*` functions with
+vim/ultisnips ones.
 
 ## Installing
 
