@@ -14,12 +14,15 @@ function fn_new {
     local fn="$1"
     local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
 
+    local expand=g:UltiSnipsExpandTrigger
+    local next=g:UltiSnipsJumpForwardTrigger
+
     if [ -e "${fnpath}" ] ; then
         local start_cmd="Go\\<cr>"
-        local snippet="superdots-new_fn\\<c-l>"
+        local snippet="superdots-new_fn\\".expand
     else
         local start_cmd="0i"
-        local snippet="superdots-new_fn_file\\<c-l>\\<c-l>\\<c-j>"
+        local snippet="superdots-new_fn_file\\".expand."\\".expand."\\".next
     fi
 
     vim \
