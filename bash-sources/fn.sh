@@ -5,30 +5,62 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 THIS_PROG="$0"
 
 
+function vim_commands {
+    local file="$1"
+    local cmd_text="$2"
+    local commands=""
+    while IFS=$'\n' read -r line ; do
+        if [ ! -z "$commands" ] ; then
+            local commands="$commands |"
+        fi
+        local commands="$commands $line"
+    done  <<<"$cmd_text"
+    vim -s <(echo ":$commands") "$file"
+}
+
+function vim_ultisnip_commands {
+    filename="$1"
+    shift
+
+    cmds=$(cat <<EOF
+execute "let g:expand=\"".substitute(g:UltiSnipsExpandTrigger, "<", "\\\\\\\\<", "g")."\""
+execute "let g:next=\"".substitute(g:UltiSnipsJumpForwardTrigger, "<", "\\\\\\\\<", "g")."\""
+$@
+EOF
+)
+
+    echo vim_commands "$filename" "$cmds"
+    vim_commands "$filename" "$cmds"
+}
+
 function fn_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_new FN_FILE_NAME"
         return 1
     fi
 
+    function escape {
+        sed 's^\\^\\\\^g' <<<"$1" | sed 's^"^\\"^g'
+    }
+
     local fn="$1"
     local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
 
-    local expand=g:UltiSnipsExpandTrigger
-    local next=g:UltiSnipsJumpForwardTrigger
+    #local expand_pre='execute "let g:e=\"\\".g:UltiSnipsExpandTrigger."'
+    local glet=$(escape 'let g:e="\".gUltiSnipsExpandTrigger')
+    local expand_pre="execute \"let g:e=\\\"\\\\\".g:UltiSnipsExpandTrigger.\"\\\"\""
+    local next_pre="execute \"let g:n=\\\"\\\\\".g:UltiSnipsJumpForwardTrigger.\"\\\"\""
+    local expand='".g:e."'
+    local next='".g:n."'
 
     if [ -e "${fnpath}" ] ; then
-        local start_cmd="Go\\<cr>"
-        local snippet="superdots-new_fn\\".expand
+        local snippet='execute "normal Go\<cr>superdots-new_fn".g:expand'
     else
-        local start_cmd="0i"
-        local snippet="superdots-new_fn_file\\".expand."\\".expand."\\".next
+        local snippet='execute "normal 0isuperdots-new_fn_file".g:expand.g:expand.g:next'
     fi
 
-    vim \
-        -s <(echo -e ':execute "normal '${start_cmd}${snippet}'"') \
-        "$fnpath"
-    
+    vim_ultisnip_commands "$fnpath" "$snippet"
+
     if [ -e "$fnpath" ] ; then
         source "$fnpath"
         echo "new function ready to go!"
