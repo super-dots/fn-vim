@@ -71,7 +71,7 @@ function fn_new {
 
 function fn_edit {
     if [ $# -ne 1 ] ; then
-        echo "USAGE: edit_fn FN_FILE_NAME"
+        echo "USAGE: fn_edit FN_FILE_NAME"
         return 1
     fi
 
