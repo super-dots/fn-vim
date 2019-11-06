@@ -1,4 +1,4 @@
-# fn-vim-plug-ultisnips-plugin
+# fn-vim
 
 This project is a [superdots](https://github.com/super-dots/superdots) plugin.
 
@@ -18,7 +18,7 @@ After installing superdots, record this as a plugin in your ~/.bashrc:
 ```
 source /path/to/superdots/bash_init.sh  # should already be there from installing
 
-superdots super-dots/fn-vim-plug-ultisnips-plugin
+superdots super-dots/fn-vim
 ```
 
 And then run the command below to install the plugin
@@ -33,5 +33,5 @@ To update your local copy of this plugin to the latest version, run the command
 below:
 
 ```
-superdots-update super-dots/fn-vim-plug-ultisnips-plugin
+superdots-update super-dots/fn-vim
 ```
