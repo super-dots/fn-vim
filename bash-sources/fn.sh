@@ -33,9 +33,20 @@ EOF
     _vim_commands "$filename" "$cmds"
 }
 
+function _ensure_editor {
+    if ! superdots-ensure-deps vim ; then
+        superdots-warn "vim not found. Please install vim"
+        return 1
+    fi
+}
+
 function fn_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_new FN_FILE_NAME"
+        return 1
+    fi
+
+    if ! _ensure_editor ; then
         return 1
     fi
 
@@ -72,6 +83,10 @@ function fn_new {
 function fn_edit {
     if [ $# -ne 1 ] ; then
         echo "USAGE: fn_edit FN_FILE_NAME"
+        return 1
+    fi
+
+    if ! _ensure_editor ; then
         return 1
     fi
 
