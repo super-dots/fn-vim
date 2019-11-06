@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 THIS_PROG="$0"
 
 
-function vim_commands {
+function _vim_commands {
     local file="$1"
     local cmd_text="$2"
     local commands=""
@@ -18,7 +18,7 @@ function vim_commands {
     vim -s <(echo ":$commands") "$file"
 }
 
-function vim_ultisnip_commands {
+function _vim_ultisnip_commands {
     filename="$1"
     shift
 
@@ -29,8 +29,8 @@ $@
 EOF
 )
 
-    echo vim_commands "$filename" "$cmds"
-    vim_commands "$filename" "$cmds"
+    echo _vim_commands "$filename" "$cmds"
+    _vim_commands "$filename" "$cmds"
 }
 
 function fn_new {
@@ -59,7 +59,7 @@ function fn_new {
         local snippet='execute "normal 0isuperdots-new_fn_file".g:expand.g:expand.g:next'
     fi
 
-    vim_ultisnip_commands "$fnpath" "$snippet"
+    _vim_ultisnip_commands "$fnpath" "$snippet"
 
     if [ -e "$fnpath" ] ; then
         source "$fnpath"
