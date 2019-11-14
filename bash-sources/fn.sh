@@ -29,7 +29,6 @@ $@
 EOF
 )
 
-    echo _vim_commands "$filename" "$cmds"
     _vim_commands "$filename" "$cmds"
 }
 
@@ -55,7 +54,7 @@ function fn_new {
     }
 
     local fn="$1"
-    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fnpath=$(_get_fn_path "$fn")
 
     #local expand_pre='execute "let g:e=\"\\".g:UltiSnipsExpandTrigger."'
     local glet=$(escape 'let g:e="\".gUltiSnipsExpandTrigger')
@@ -91,7 +90,7 @@ function fn_edit {
     fi
 
     local fn="$1"
-    local fnpath="${SUPERDOTS}/dots/local/bash-sources/${fn}.sh"
+    local fnpath=$(_get_fn_path "$fn")
 
     if [ ! -e "${fnpath}" ] ; then
         fn_new $fn
