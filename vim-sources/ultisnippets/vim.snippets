@@ -1,0 +1,17 @@
+snippet superdots-vim_new_file
+let s:this_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
+function! ${1:NewFunction}()
+    ${0:echo "Called $1"}
+endfunction
+" map <leader>${2} :call $1()<CR>
+
+endsnippet
+
+snippet superdots-vim_new_fn
+function! ${1:NewFunction}()
+    ${0:echo "Called $1"}
+endfunction
+" map <leader>${2} :call $1()<CR>
+
+endsnippet

@@ -1,23 +1,6 @@
 #!/usr/bin/env bash
 
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-THIS_PROG="$0"
-
-
-function _vim_commands {
-    local file="$1"
-    local cmd_text="$2"
-    local commands=""
-    while IFS=$'\n' read -r line ; do
-        if [ ! -z "$commands" ] ; then
-            local commands="$commands |"
-        fi
-        local commands="$commands $line"
-    done  <<<"$cmd_text"
-    vim -s <(echo ":$commands") "$file"
-}
-
 function _vim_ultisnip_commands {
     filename="$1"
     shift
@@ -73,9 +56,9 @@ function fn_new {
 
     if [ -e "$fnpath" ] ; then
         source "$fnpath"
-        echo "new function ready to go!"
+        superdots-info "new function ready to go!"
     else
-        echo "did not source unsaved function file"
+        superdots-warn "did not source unsaved function file"
     fi
 }
 
@@ -101,6 +84,8 @@ function fn_edit {
 
     if [ -f "${fnpath}" ] ; then
         source "${fnpath}"
-        echo "new changes are ready for use"
+        superdots-info "new changes are ready for use"
+    else
+        superdots-warn "file was not saved"
     fi
 }
