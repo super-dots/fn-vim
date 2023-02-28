@@ -37,7 +37,7 @@ function _ensure_editor {
     fi
 }
 
-add_completion vim_new _vim_file_completion
+sd::completion::add vim_new _vim_file_completion
 function vim_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: vim_new VIM_FILE_NAME"
@@ -61,7 +61,7 @@ function vim_new {
 }
 
 
-add_completion vim_fn_new _vim_file_completion
+sd::completion::add vim_fn_new _vim_file_completion
 function vim_fn_new {
     if [ $# -ne 1 ] ; then
         echo "USAGE: vim_new VIM_FILE_NAME"
@@ -115,7 +115,7 @@ function _get_vim_path {
     echo "$vim_path"
 }
 
-add_completion vim_edit _vim_file_completion -o nosort
+sd::completion::add vim_edit _vim_file_completion -o nosort
 function vim_edit {
     if [ $# -ne 1 ] ; then
         echo "USAGE: vim_edit VIM_FILE_NAME"
